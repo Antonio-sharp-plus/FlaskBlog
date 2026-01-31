@@ -1,4 +1,5 @@
 from datetime import date
+from dotenv import load_dotenv
 import os
 import werkzeug
 from itsdangerous import URLSafeTimedSerializer
@@ -30,12 +31,13 @@ This will install the packages from the requirements.txt for this project.
 '''
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
-app.config['MAIL_SERVER'] = os.environ.get("MAIL_SERVER")
-app.config['MAIL_PORT'] = os.environ.get("MAIL_PORT")
-app.config['MAIL_USE_TLS'] = os.environ.get("MAIL_USE_TLS")
-app.config['MAIL_USERNAME'] = os.environ.get("mail_username")
-app.config['MAIL_PASSWORD'] = os.environ.get("mail_password")
+load_dotenv()
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
+app.config['MAIL_SERVER'] = os.getenv("MAIL_SERVER")
+app.config['MAIL_PORT'] = os.getenv("MAIL_PORT")
+app.config['MAIL_USE_TLS'] = os.getenv("MAIL_USE_TLS")
+app.config['MAIL_USERNAME'] = os.getenv("mail_username")
+app.config['MAIL_PASSWORD'] = os.getenv("mail_password")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 mail = Mail(app)
@@ -244,17 +246,17 @@ def forgot():
         email = form.email.data
         user = User.query.filter_by(email=email).first()
         if user:
-            token = serializer.dumps(current_user.email, salt="password-reset")
+            token = serializer.dumps(email, salt="password-reset")
             link = url_for("reset_password", token=token, _external=True)
 
-            msg = Message("Reset Password", recipients=[current_user.email])
+            msg = Message("Reset Password", recipients=[email], sender=os.getenv("MAIL_USERNAME"))
             msg.body = f"Click here to reset your password:\n{link}"
             mail.send(msg)
 
             flash(f"You'll receive a link to reset your password at {email}.")
             return redirect(url_for("login"))
 
-        return render_template("forgot_password.html", form=form)
+    return render_template("forgot_password.html", form=form)
 
 
 @app.route("/reset-password/<token>", methods=["GET", "POST"])
@@ -267,7 +269,7 @@ def reset_password(token):
             max_age=3600  # 1 hora
         )
     except:
-        flash("El link es inválido o expiró")
+        flash("Invalid or expired link")
         return redirect(url_for("forgot_password"))
 
     user = User.query.filter_by(email=email).first()
@@ -276,10 +278,10 @@ def reset_password(token):
 
     if form.validate_on_submit():
         new_password = form.pssw.data
-        user.password = generate_password_hash(new_password)
+        user.password = werkzeug.security.generate_password_hash(new_password, method="pbkdf2:sha256", salt_length=8)
         db.session.commit()
 
-        flash("Contraseña actualizada correctamente")
+        flash("Password updated")
         return redirect(url_for("login"))
 
     return render_template("reset_password.html", form=form)

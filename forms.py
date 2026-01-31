@@ -39,6 +39,7 @@ class ForgotForm(FlaskForm):
     email = EmailField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField(label="Send")
 
-class RestForm(FlaskForm):
+
+class ResetForm(FlaskForm):
     pssw = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
     submit = SubmitField(label="Change Password")

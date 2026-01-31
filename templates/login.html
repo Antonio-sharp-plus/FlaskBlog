@@ -26,6 +26,7 @@ include "header.html" %}
         <!--TODO: render login form here-->
 
         {{ render_form(form) }}
+        <p><a href="{{ url_for('forgot') }}">I forgot my password</a></p>
 
         {% with messages = get_flashed_messages() %}
             {% if messages %}
