@@ -1,0 +1,44 @@
+{% include "header.html" %}
+
+<!-- Page Header-->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/about-bg.jpg')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="page-heading">
+          <h1>About Me</h1>
+          <span class="subheading">Let me tell you about this project.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Main Content-->
+<main class="mb-4">
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <p>
+          This project is a monolithic web application built with Flask and Bootstrap, designed to deliver a
+          complete, end-to-end user experience within a single, cohesive system. The frontend, backend, business
+          logic, and data layer are fully integrated to ensure consistency, reliability, and maintainability.
+        </p>
+        <p>
+          It is one of my early full-stack projects, created to strengthen my practical understanding of Flask
+          and to gain hands-on experience designing and implementing RESTful web services in a real-world context.
+        </p>
+        <p>
+          The application features secure user authentication powered by Flask-Login and dynamic form handling
+          through Flask-WTF. Data is stored using SQLite (PostgreSQL when hosted for your use), supporting user accounts, blog posts, and user comments,
+          while passwords are protected using industry-standard hashing provided by Werkzeug to ensure a strong
+          security baseline.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
+{% include "footer.html" %}
