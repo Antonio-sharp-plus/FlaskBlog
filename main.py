@@ -1,5 +1,5 @@
 from datetime import date
-
+import os
 import werkzeug
 from flask import Flask, abort, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
@@ -28,12 +28,12 @@ This will install the packages from the requirements.txt for this project.
 '''
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'tucorreo@gmail.com'
-app.config['MAIL_PASSWORD'] = 'password'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config['MAIL_SERVER'] = os.environ.get("MAIL_SERVER")
+app.config['MAIL_PORT'] = os.environ.get("MAIL_PORT")
+app.config['MAIL_USE_TLS'] = os.environ.get("MAIL_USE_TLS")
+app.config['MAIL_USERNAME'] = os.environ.get("mail_username")
+app.config['MAIL_PASSWORD'] = os.environ.get("mail_password")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
