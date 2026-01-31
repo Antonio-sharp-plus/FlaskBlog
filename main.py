@@ -1,6 +1,8 @@
 from datetime import date
 import os
 import werkzeug
+from itsdangerous import URLSafeTimedSerializer
+from flask_mail import Mail, Message
 from flask import Flask, abort, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
@@ -12,7 +14,7 @@ from sqlalchemy import Integer, String, Text
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 # Import your forms from the forms.py
-from forms import CreatePostForm, RegisterForm, CommentForm, LoginForm
+from forms import CreatePostForm, RegisterForm, CommentForm, LoginForm, ForgotForm, ResetForm
 
 '''
 Make sure the required packages are installed: 
@@ -36,6 +38,8 @@ app.config['MAIL_USERNAME'] = os.environ.get("mail_username")
 app.config['MAIL_PASSWORD'] = os.environ.get("mail_password")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
+mail = Mail(app)
+serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 # TODO: Configure Flask-Login
 loginManager = LoginManager()
@@ -231,6 +235,54 @@ def delete_post(post_id):
     db.session.delete(post_to_delete)
     db.session.commit()
     return redirect(url_for('get_all_posts'))
+
+
+@app.route('/forgot', methods=['GET', 'POST'])
+def forgot():
+    form = ForgotForm()
+    if request.method == "POST":
+        email = form.email.data
+        user = User.query.filter_by(email=email).first()
+        if user:
+            token = serializer.dumps(current_user.email, salt="password-reset")
+            link = url_for("reset_password", token=token, _external=True)
+
+            msg = Message("Reset Password", recipients=[current_user.email])
+            msg.body = f"Click here to reset your password:\n{link}"
+            mail.send(msg)
+
+            flash(f"You'll receive a link to reset your password at {email}.")
+            return redirect(url_for("login"))
+
+        return render_template("forgot_password.html", form=form)
+
+
+@app.route("/reset-password/<token>", methods=["GET", "POST"])
+def reset_password(token):
+    form = ResetForm()
+    try:
+        email = serializer.loads(
+            token,
+            salt="password-reset",
+            max_age=3600  # 1 hora
+        )
+    except:
+        flash("El link es inválido o expiró")
+        return redirect(url_for("forgot_password"))
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        abort(404)
+
+    if form.validate_on_submit():
+        new_password = form.pssw.data
+        user.password = generate_password_hash(new_password)
+        db.session.commit()
+
+        flash("Contraseña actualizada correctamente")
+        return redirect(url_for("login"))
+
+    return render_template("reset_password.html", form=form)
 
 
 @app.route("/about")

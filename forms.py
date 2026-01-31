@@ -32,3 +32,13 @@ class LoginForm(FlaskForm):
 class CommentForm(FlaskForm):
     comment = CKEditorField("Comment", validators=[DataRequired()])
     submit = SubmitField(label="Send")
+
+
+# EXTRA: In case the user forgets the password
+class ForgotForm(FlaskForm):
+    email = EmailField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField(label="Send")
+
+class RestForm(FlaskForm):
+    pssw = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
+    submit = SubmitField(label="Change Password")
