@@ -22,7 +22,7 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
       <div class="col-md-10 col-lg-8 col-xl-7">
         <p>
-          This project is a monolithic web application built with Flask and Bootstrap, designed to deliver a
+          This project is a monolithic web application built with <b>Flask</b> and <b>Bootstrap</b>, designed to deliver a
           complete, end-to-end user experience within a single, cohesive system. The frontend, backend, business
           logic, and data layer are fully integrated to ensure consistency, reliability, and maintainability.
         </p>
@@ -31,10 +31,20 @@
           and to gain hands-on experience designing and implementing RESTful web services in a real-world context.
         </p>
         <p>
-          The application features secure user authentication powered by Flask-Login and dynamic form handling
-          through Flask-WTF. Data is stored using SQLite (PostgreSQL when hosted for your use), supporting user accounts, blog posts, and user comments,
-          while passwords are protected using industry-standard hashing provided by Werkzeug to ensure a strong
+          The application features secure user authentication powered by <b>Flask-Login</b> and dynamic form handling
+          through <b>Flask-WTF</b>. Data is stored using <b>SQLite</b> (<b>PostgreSQL</b> when hosted for your use),
+          supporting user accounts, blog posts, and user comments,
+          while passwords are protected using industry-standard hashing provided by <b>Werkzeug</b> to ensure a strong
           security baseline.
+        </p>
+        <p>
+          You can reset your password through your mail with protected routes using <b>SMPT</b>
+          for sending mails, and <b>URLSafeTimedSerializer</b>
+          to create a token that makes sure the process is accessible to you only.
+        </p>
+        <p>
+          This project includes a CI/CD pipeline that automatically runs tests and deploys updates
+          to the web application upon each push to the repository.
         </p>
       </div>
     </div>
