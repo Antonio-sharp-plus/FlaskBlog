@@ -62,7 +62,7 @@ def admin_required(function):
     return wrapper
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DB_URI", 'sqlite:///posts.db')
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 loginManager.init_app(app)
