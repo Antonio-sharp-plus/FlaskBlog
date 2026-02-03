@@ -144,6 +144,7 @@ def login():
 
 
 @app.route('/logout')
+@logout_user
 def logout():
     return redirect(url_for('get_all_posts'))
 
