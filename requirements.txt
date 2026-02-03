@@ -13,3 +13,4 @@ psycopg2-binary==2.9.9
 itsdangerous~=2.2.0
 Flask-Mail
 dotenv
+gunicorn==21.2.0
