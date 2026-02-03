@@ -32,7 +32,7 @@
           <a href="#">{{post.author}}</a>
           on {{post.date}}
           <!-- TODO: Only show delete button if user id is 1 (admin user) -->
-          {% if current_user.email == "antonicoa2014@gmail.com" %}
+          {% if current_user.email == "antonicoa2014@gmail.com": %}
             <a href="{{url_for('delete_post', post_id=post.id) }}">✘</a>
           {% endif %}
         </p>
@@ -43,7 +43,7 @@
 
       <!-- New Post -->
       <!-- TODO: Only show Create Post button if user id is 1 (admin user) -->
-      {% if not logged_in: %}
+      {% if logged_in: %}
         <div class="d-flex justify-content-end mb-4">
 
           <a
