@@ -55,7 +55,7 @@ class Base(DeclarativeBase):
 def admin_required(function):
     @wraps(function)
     def wrapper(*args, **kwargs):
-        if current_user.id != 1:
+        if current_user.email != "antonicoa2014@gmail.com":
             abort(403)
         return function(*args, **kwargs)
 
@@ -91,7 +91,7 @@ class Comments(db.Model):
 # TODO: Create a User table for all your registered users. 
 class User(UserMixin, db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    email: Mapped[str] = mapped_column(String(100), nullable=False)
+    email: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     password: Mapped[str] = mapped_column(String(100), nullable=False)
 
@@ -197,7 +197,7 @@ def add_new_post():
             subtitle=form.subtitle.data,
             body=form.body.data,
             img_url=form.img_url.data,
-            author=current_user,
+            author=current_user.name,
             date=date.today().strftime("%B %d, %Y")
         )
         db.session.add(new_post)
