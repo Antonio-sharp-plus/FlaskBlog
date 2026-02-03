@@ -39,9 +39,6 @@ def create_serializer():
     return URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 
-serializer = create_serializer()
-
-
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
@@ -94,6 +91,7 @@ class User(UserMixin, db.Model):
 with app.app_context():
     db.create_all()
 
+serializer = create_serializer()
 
 @loginManager.user_loader
 def load_user(user_id):
