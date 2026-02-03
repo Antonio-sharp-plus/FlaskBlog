@@ -43,15 +43,15 @@
 
       <!-- New Post -->
       <!-- TODO: Only show Create Post button if user id is 1 (admin user) -->
-      {% if current_user %}
-      <div class="d-flex justify-content-end mb-4">
+      {% if not logged_in: %}
+        <div class="d-flex justify-content-end mb-4">
 
-        <a
-          class="btn btn-primary float-right"
-          href="{{url_for('add_new_post')}}"
-          >Create New Post</a
-        >
-      </div>
+          <a
+            class="btn btn-primary float-right"
+            href="{{url_for('add_new_post')}}"
+            >Create New Post</a
+          >
+        </div>
       {% endif %}
 
       <!-- Pager-->
