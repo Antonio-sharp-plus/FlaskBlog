@@ -4,6 +4,10 @@ from dotenv import load_dotenv
 from .extensions import db, login_manager, mail, ckeditor, bootstrap
 
 
+def init_db(app):
+    with app.app_context():
+        db.create_all()
+
 def create_app():
     load_dotenv()
 
