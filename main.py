@@ -30,10 +30,16 @@ app.config['MAIL_PASSWORD'] = os.getenv("mail_password")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 mail = Mail(app)
-serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 # TODO: Configure Flask-Login
 loginManager = LoginManager()
+
+
+def create_serializer():
+    return URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+
+serializer = create_serializer()
 
 
 # CREATE DATABASE
@@ -148,7 +154,8 @@ def logout():
 def get_all_posts():
     result = db.session.execute(db.select(BlogPost))
     posts = result.scalars().all()
-    return render_template("index.html", all_posts=posts, logged_in=current_user.is_authenticated, current_user=current_user)
+    return render_template("index.html", all_posts=posts, logged_in=current_user.is_authenticated,
+                           current_user=current_user)
 
 
 # TODO: Allow logged-in users to comment on posts
