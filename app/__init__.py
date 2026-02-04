@@ -9,7 +9,7 @@ def init_db(app):
         db.create_all()
 
 
-def create_app(config_class):
+def create_app(config_class=None):
     load_dotenv()
 
     app = Flask(__name__)
