@@ -83,6 +83,7 @@ def forgot():
         link = url_for("auth.reset_password", token=token, _external=True)
 
         msg = Message(
+            sender="antonicoa2014@gmail.com",
             subject="Reset Password",
             recipients=[user.email],
             body=f"Click here to reset your password:\n{link}"
