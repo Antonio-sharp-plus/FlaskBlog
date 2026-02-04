@@ -4,9 +4,10 @@ from flask_mail import Mail
 from flask_ckeditor import CKEditor
 from flask_bootstrap import Bootstrap5
 
-
 db = SQLAlchemy()
 login_manager = LoginManager()
 mail = Mail()
 ckeditor = CKEditor()
 bootstrap = Bootstrap5()
+
+login_manager.login_view = "auth.login"

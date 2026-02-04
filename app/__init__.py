@@ -20,6 +20,9 @@ def create_app():
     ckeditor.init_app(app)
     bootstrap.init_app(app)
 
+    # IMPORTANT: Import models so user_loader can see User
+    from . import models
+
     from .routes import auth, blog, pages
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)

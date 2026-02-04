@@ -23,7 +23,7 @@
       <!-- Post preview-->
       {% for post in all_posts %}
       <div class="post-preview">
-        <a href="{{ url_for('show_post', post_id=post.id) }}">
+        <a href="{{ url_for('blog.show_post', post_id=post.id) }}">
           <h2 class="post-title">{{ post.title }}</h2>
           <h3 class="post-subtitle">{{ post.subtitle }}</h3>
         </a>
@@ -33,7 +33,7 @@
           on {{post.date}}
           <!-- TODO: Only show delete button if user id is 1 (admin user) -->
           {% if current_user.email == "antonicoa2014@gmail.com": %}
-            <a href="{{url_for('delete_post', post_id=post.id) }}">✘</a>
+            <a href="{{url_for('blog.delete_post', post_id=post.id) }}">✘</a>
           {% endif %}
         </p>
       </div>
@@ -48,16 +48,12 @@
 
           <a
             class="btn btn-primary float-right"
-            href="{{url_for('add_new_post')}}"
+            href="{{url_for('blog.add_new_post')}}"
             >Create New Post</a
           >
         </div>
       {% endif %}
 
-      <!-- Pager-->
-      <div class="d-flex justify-content-end mb-4">
-        <a class="btn btn-secondary text-uppercase" href="#!">Older Posts →</a>
-      </div>
     </div>
   </div>
 </div>
