@@ -1,8 +1,10 @@
+from app.config import TestConfig
+
+
 def test_app_starts():
     from app import create_app
 
-    app = create_app()
-    app.config.from_object("app.config.TestConfig")
+    app = create_app(config_class=TestConfig)  # config applied first
 
     client = app.test_client()
     response = client.get("/")

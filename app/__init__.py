@@ -9,11 +9,15 @@ def init_db(app):
         db.create_all()
 
 
-def create_app():
+def create_app(config_class):
     load_dotenv()
 
     app = Flask(__name__)
-    app.config.from_object("app.config.Config")
+
+    if config_class:
+        app.config.from_object(config_class)
+    else:
+        app.config.from_object("app.config.Config")
 
     db.init_app(app)
     init_db(app)
