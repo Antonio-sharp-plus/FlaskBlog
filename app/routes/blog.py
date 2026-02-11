@@ -4,7 +4,7 @@ from datetime import date
 
 from app.extensions import db
 from app.models import BlogPost, Comments
-from app.decorators import admin_required
+from app.decorators import admin_required, edit_and_delete_permission
 from forms import CreatePostForm, CommentForm
 
 bp = Blueprint("blog", __name__)
@@ -76,10 +76,11 @@ def add_new_post():
 
 
 @bp.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
-@admin_required
+@edit_and_delete_permission
 def edit_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
     form = CreatePostForm(obj=post)
+    usermail = current_user.email
 
     if form.validate_on_submit():
         form.populate_obj(post)
@@ -91,7 +92,7 @@ def edit_post(post_id):
 
 
 @bp.route("/delete/<int:post_id>")
-@admin_required
+@edit_and_delete_permission
 def delete_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
     db.session.delete(post)
