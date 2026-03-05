@@ -10,4 +10,8 @@ class BlogPost(UserMixin, db.Model):
     body = db.Column(db.Text, nullable=False)
     author = db.Column(db.String(80), nullable=False)
     author_id = db.Column(db.Integer, nullable=False)
-    img_url = db.Column(db.Text, nullable=True)
+    img_url = db.Column(
+        db.Text,
+        nullable=False,
+        default="/static/assets/img/about-bg"
+    )
